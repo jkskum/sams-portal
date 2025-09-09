@@ -1,0 +1,60 @@
+<div class="main-container d-flex justify-content-center align-items-center vh-100">
+
+    <div class="leftLogo position-absolute top-0 start-0">
+        <img src="assets/unodc-logo.png" alt="UNODC Logo">
+    </div>
+
+    <div class="card shadow-sm" style="border-radius: 2rem;">
+        <div class="card-body p-5 text-center">
+            
+            <img src="assets/ultralogo.png" alt="SAMS Logo" class="mb-3 appLogo img-fluid">
+            
+            <h4 class="mb-3">SAMS</h4>
+
+            <hr class="ho">
+
+            <form class="mt-4" (submit)="onSubmit($event)">
+                <h5 class="mb-4 text-center">Login to your account</h5>
+
+                <div class="mb-3 text-start formRow">
+                    <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                    <input type="email" id="email" name="email" class="form-control" [formControl]="email" [class.is-invalid]="email.touched && email.invalid" autocomplete="email">
+                    <div class="text-smallest red text-bolder" 
+                        *ngIf="email.touched && email.hasError('required')">
+                        Email is required
+                    </div>
+                    <div class="text-smallest red text-bolder" 
+                        *ngIf="email.touched && !email.hasError('required') && email.hasError('email')">
+                        This is not a valid email!
+                    </div>
+                </div>
+
+                <div class="mb-3 text-start formRow">
+                    <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+                    <div class="position-relative">
+                        <input [type]="showPassword ? 'text' : 'password'" id="password" name="password" class="form-control pe-5" [formControl]="password" [class.is-invalid]="password.touched && password.invalid" autocomplete="current-password">
+                        <button class="btn position-absolute top-50 end-0 translate-middle-y me-2 p-0 border-0 bg-transparent" type="button" (click)="togglePassword()" aria-label="Toggle password visibility">
+                            <i class="bi text-muted" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword"></i>
+                        </button>
+                    </div>
+                    <div class="text-smallest red text-bolder" 
+                        *ngIf="password.touched && password.hasError('required')">
+                        Password is required
+                    </div>
+                </div>
+
+                <div class="text-end mb-3 formRow">
+                    <a href="#" class="blue text-decoration-none text-bold">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 mb-4" [disabled]="email.invalid || password.invalid">Login</button>
+            </form>
+
+            <div class="mt-3">
+                <p class="mb-2">Don't have an account? <a href="#" class="blue text-decoration-none footer">Register</a></p>
+                <p class="mb-0"><a href="#" class="blue text-decoration-none footer">Contact Us</a></p>
+            </div>
+        </div>
+    </div>
+
+</div>

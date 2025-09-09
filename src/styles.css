@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Body, Heading elements, global fonts and colors, anchor, para, image, form elemets */
+
+
+.btn:disabled, .btn.disabled {
+    background-color: #e7e3d4 !important;
+    color: #2d3748 !important;
+    border: none;
+}
+
+.text-bolder {
+    font-weight: 700 !important;
+}
+.text-smallest {
+    font-size: .7rem !important;
+}
+.red {
+    color: #b23850 !important;
+}
+
+a:hover {
+    text-decoration: underline !important;
+}
+
+.text-bold{
+    font-weight: 500 !important;
+}
