@@ -2,21 +2,25 @@
 
 /* Body, Heading elements, global fonts and colors, anchor, para, image, form elemets */
 
+/* body {
+    margin: 2rem !important;
+} */
+
 
 .btn:disabled, .btn.disabled {
-    background-color: #e7e3d4 !important;
-    color: #2d3748 !important;
+    background-color: #e7e3d4;
+    color: #2d3748;
     border: none;
 }
 
 .text-bolder {
-    font-weight: 700 !important;
+    font-weight: 700;
 }
 .text-smallest {
-    font-size: .7rem !important;
+    font-size: .7rem;
 }
 .red {
-    color: #b23850 !important;
+    color: #b23850;
 }
 
 a:hover {
@@ -24,5 +28,9 @@ a:hover {
 }
 
 .text-bold{
-    font-weight: 500 !important;
+    font-weight: 500;
+}
+
+.bg-primary{
+    background-color: rgb(65 117 195) !important;
 }

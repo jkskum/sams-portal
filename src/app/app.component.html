@@ -1,1 +1,4 @@
+<app-topbar *ngIf="!router.url.startsWith('/auth')"></app-topbar>
 <router-outlet />
+<app-footer *ngIf="!router.url.startsWith('/auth')"></app-footer>
+
