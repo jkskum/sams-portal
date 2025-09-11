@@ -1,25 +1,118 @@
-<div class="container" style="margin-top: 5rem;">
-  <div class="d-flex justify-content-between align-items-center my-3">
-    <h2 class="m-0">Users</h2>
-    <a class="btn btn-primary" routerLink="/user/user-create">Create User</a>
+<div class="container" id="userListPage">
+  <div class="d-flex align-items-center justify-content-between my-3">
+    <div class="d-flex align-items-center">
+      <h2 class="m-0 me-2">User List</h2>
+      <i class="bi bi-people-fill" id="userIcon"></i>
+    </div>
+    <div class="create-user-btn ms-4 mb-2 px-4 py-2 fw-light rounded" data-bs-toggle="tooltip" title="Create New User" routerLink="/user/user-create-edit">Create User</div>
   </div>
 
-  <div class="row g-3 mb-3">
-    <div class="col-md-3">
-      <label for="searchName" class="form-label">Search by name or username or email</label>
+  <div class="d-flex align-items-center gap-3">
+    
+    <span class="badge bg-light text-primary border border-primary">
+      {{userCount}} Users
+    </span>
+
+    <div class="searchBox">
       <input
         id="searchName"
         type="text"
         class="form-control"
-        placeholder="e.g. John or jdoe or john@example.com"
+        placeholder="Search by name or username or email"
         [(ngModel)]="searchName"
+        (input)="onSearchChange()"
       />
     </div>
+
   </div>
 
-  <div class="table-responsive">
-    <table class="table table-hover">
-      <thead class="table-light">
+
+  <div class="card mt-4 mb-4">
+    
+    <div class="card-header bg-white py-3">
+      <div class="card-title mb-0 d-flex align-items-center fw-bold">
+        <i class="bi bi-funnel-fill text-primary me-2"></i>
+        Advance Filters
+      </div>
+
+      <div class="row g-3">
+        
+        <div class="row g-4">
+          
+          <div class="col-md-3">
+            <label for="filterCountry" class="form-label">Country</label>
+            <select id="filterCountry" class="form-select" [(ngModel)]="selectedCountry" name="country">
+              <option value="">All Countries</option>
+              <option *ngFor="let country of uniqueCountries" [value]="country">{{ country }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-3">
+            <label for="filterDepartment" class="form-label">Department</label>
+            <select id="filterDepartment" class="form-select" [(ngModel)]="selectedDepartment" name="department">
+              <option value="">All Departments</option>
+              <option *ngFor="let department of uniqueDepartments" [value]="department">{{ department }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-3">
+            <label for="filterQualification" class="form-label">Qualification</label>
+            <select id="filterQualification" class="form-select" [(ngModel)]="selectedQualification" name="qualification">
+              <option value="">All Qualifications</option>
+              <option *ngFor="let qualification of uniqueQualifications" [value]="qualification">{{ qualification }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-3">
+            <label for="filterInstitute" class="form-label">Institute</label>
+            <select id="filterInstitute" class="form-select" [(ngModel)]="selectedInstitute" name="institute">
+              <option value="">All Institutes</option>
+              <option *ngFor="let institute of uniqueInstitutes" [value]="institute">{{ institute }}</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="card-body">
+      
+      <div class="active-filters d-flex justify-content-between align-items-center">
+        <div>
+          Active filters: 
+          <span class="badge bg-light text-primary border border-primary" *ngIf="!hasActiveFilters()">
+            No filters applied
+          </span>
+          <span class="badge bg-primary text-white me-2" *ngIf="selectedCountry">
+            Country: {{ selectedCountry }}
+          </span>
+          <span class="badge bg-primary text-white me-2" *ngIf="selectedDepartment">
+            Department: {{ selectedDepartment }}
+          </span>
+          <span class="badge bg-primary text-white me-2" *ngIf="selectedQualification">
+            Qualification: {{ selectedQualification }}
+          </span>
+          <span class="badge bg-primary text-white me-2" *ngIf="selectedInstitute">
+            Institute: {{ selectedInstitute }}
+          </span>
+        </div>
+
+        <div>
+          <button class="secondary-btn px-3 py-1 fw-light rounded me-2" (click)="clearAllFilters()">Clear All</button>
+          <button class="create-user-btn ms-4 mb-2 px-3 py-1 fw-light rounded" (click)="applyFilters()">Apply Filters</button>
+        </div>
+      </div>
+      
+    </div>
+
+  </div>
+
+
+
+  <div class="table-responsive mt-4">
+    <table class="table table-hover align-middle rounded-table">
+      <thead class="table-blue text-white my-6">
         <tr>
           <th scope="col">Username</th>
           <th scope="col">Name</th>
@@ -34,7 +127,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let u of filteredUsers">
+        <tr *ngFor="let u of paginatedUsers">
           <td>{{ u.username }}</td>
           <td>{{ u.name }}</td>
           <td>{{ u.email }}</td>
@@ -45,18 +138,58 @@
           <td>{{ u.department }}</td>
           <td>{{ u.qualification }}</td>
           <td>
-            <a class="btn btn-primary btn-sm me-2" routerLink="/user/user-edit/{{ u.email }}">
+            <a class="btn btn-primary btn-sm me-2 iconColor" data-bs-toggle="tooltip" title="Edit" routerLink="/user/user-create-edit/{{ u.id }}">
               <i class="bi bi-pencil"></i>
             </a>
-            <button class="btn btn-danger btn-sm" (click)="onDelete(u.email)">
+            <button class="btn btn-danger btn-sm iconColor" data-bs-toggle="tooltip" title="Remove" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" (click)="setUserToDelete(u)">
               <i class="bi bi-trash3"></i>
             </button>
           </td>
         </tr>
-        <tr *ngIf="filteredUsers.length === 0">
-          <td colspan="9" class="text-center text-muted py-4">No users found</td>
+        <tr *ngIf="paginatedUsers.length === 0">
+          <td colspan="10" class="text-center text-muted py-4">No users found</td>
         </tr>
       </tbody>
     </table>
+
+
+
+    <div class="modal fade" id="deleteConfirmModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="deleteConfirmModalLabel">Confirm Delete</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete user <strong>{{ userToDelete?.name }}</strong>?</p>
+            <p class="text-muted">This action cannot be undone.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="confirmDelete()">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+      <div id="deleteSuccessToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+          <div class="toast-body">
+            User <strong>{{ deletedUserName }}</strong> has been deleted successfully!
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="d-flex justify-content-center align-items-center mt-3">
+      <button class="btn btn-outline-primary me-2" [disabled]="currentPage === 1" (click)="setPage(currentPage - 1)">Previous</button>
+      <span class="mx-2">Page {{ currentPage }} of {{ totalPages }}</span>
+      <button class="btn btn-outline-primary ms-2" [disabled]="currentPage === totalPages" (click)="setPage(currentPage + 1)">Next</button>
+    </div>
   </div>
 </div>

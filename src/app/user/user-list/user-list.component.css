@@ -1,0 +1,50 @@
+#userListPage {
+  margin-top: 5rem;
+  margin-bottom: 3rem;
+}
+
+#userIcon {
+  color: var(--color-primary);
+  font-size: 2rem;
+}
+
+.searchBox {
+    min-width: 350px;
+}
+
+.iconColor{
+  color: var(--color-primary-light);
+}
+.table-blue {
+    background: var(--color-primary) !important;
+}
+.table-blue tr {
+    background: var(--color-primary) !important;
+}
+.table-blue th {
+    background: var(--color-primary) !important;
+    color: #fff !important;
+    font-family: var(--font-primary);
+    font-weight: 600;
+    border: none;
+  }
+  
+  .rounded-table {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .pagination-fixed {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-bottom: 2rem;
+    background: transparent;
+    z-index: 2;
+  }
+  
+  .table-responsive {
+    min-height: 500px;
+    position: relative;
+  }

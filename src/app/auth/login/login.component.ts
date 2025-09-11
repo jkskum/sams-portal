@@ -26,7 +26,7 @@ export class LoginComponent {
     event.preventDefault();
     if (this.email.valid && this.password.valid) {
       console.log('Login form submitted: ' + this.email.value + ' ' + this.password.value);
-      this.router.navigate(['user/user-create']);
+      this.router.navigate(['user/user-list']);
     }
   }
 }

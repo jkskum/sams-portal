@@ -8,12 +8,16 @@
 }
 .topbar_logo {
   width: 100%;
-  color: #fff;
+  color: #ffffff16;
   vertical-align: middle;
   max-width: 200px;
 }
 .navbar-expand-lg .navbar-nav .nav-link {
     color: #fff;
+}
+
+.bg-primary {
+    background-color: #2563EB !important;
 }
 
 
@@ -31,6 +35,10 @@
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (max-width: 768px) {
 
+}
+
+.navbar-brand {
+  padding-top: 0px !important;
 }
 
 /* Small devices (modile devices, 576px and up) */

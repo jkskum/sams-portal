@@ -1,11 +1,70 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --font-primary: 'Inter', sans-serif;
+    --font-secondary: 'Roboto', sans-serif;
+  
+    --color-primary: #2563EB;
+    --color-primary-hover: #1D4ED8;
+    --color-primary-light: #DBEAFE;
+  
+    --color-secondary: #F59E0B;
+    --color-secondary-hover: #D97706;
+  
+    --color-bg-light: #F9FAFB;
+    --color-bg-dark: #111827;
+    --color-surface: #FFFFFF;
+    --color-border: #E5E7EB;
+  
+    --color-text-heading: #111827;
+    --color-text-body: #374151;
+    --color-text-muted: #6B7280;
+  
+    --color-success: #10B981;
+    --color-warning: #F59E0B;
+    --color-error: #EF4444;
+    --color-info: #3B82F6;
+  }
+  
+  body {
+    font-family: var(--font-secondary);
+    color: var(--color-text-body);
+    background: var(--color-bg-light);
+  }
+  
+  h1, h2, h3, h4, h5, h6, .nav, .btn {
+    font-family: var(--font-primary);
+    font-weight: 600;
+    color: var(--color-text-heading);
+  }
 
-/* Body, Heading elements, global fonts and colors, anchor, para, image, form elemets */
+  .create-user-btn {
+    background: var(--color-primary);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.15);
+    border: none;
+    transition: box-shadow 0.2s, background 0.2s;
+    cursor: pointer;
+  }
+  
+  .create-user-btn:hover {
+    background: var(--color-primary-hover);
+    box-shadow: 0 4px 16px rgba(37,99,235,0.25);
+    color: #fff;
+  }
 
-/* body {
-    margin: 2rem !important;
-} */
+  .secondary-btn {
+    background: var(--color-secondary);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(245,158,11,0.15);
+    border: none;
+    transition: box-shadow 0.2s, background 0.2s;
+    cursor: pointer;
+  }
 
+  .secondary-btn:hover {
+    background: var(--color-secondary-hover);
+    box-shadow: 0 4px 16px rgba(245,158,11,0.25);
+    color: #fff;
+  }
 
 .btn:disabled, .btn.disabled {
     background-color: #e7e3d4;

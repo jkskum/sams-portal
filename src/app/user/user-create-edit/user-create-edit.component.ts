@@ -1,33 +1,27 @@
-import { Component, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { UserService, User } from '../../service/user-services';
 
 @Component({
-  selector: 'app-user-create',
+  selector: 'app-user-create-edit',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './user-create.component.html',
-  styleUrls: ['./user-create.component.css']
+  imports: [CommonModule, FormsModule],
+  templateUrl: './user-create-edit.component.html',
+  styleUrls: ['./user-create-edit.component.css']
 })
 
-// interface User {
-//   username: string;
-//   firstName: string;
-//   lastName: string;
-//   email: string;
-//   age: number;
-//   gender: string;
-//   phone: string;
-//   country: string;
-//   city: string;
-//   institute: string;
-//   department: string;
-//   qualification: string;
-// }
+export class UserCreateEditComponent implements OnInit {
 
-export class UserCreateComponent {
+  constructor(
+    private router: Router, 
+    private route: ActivatedRoute,
+    private userService: UserService
+  ) {}
 
-  constructor(private router: Router) {}
+  isEditMode = false;
+  userId: number | null = null;
 
   countries: string[] = [
     'Afghanistan','Albania','Algeria','Andorra','Angola','Antigua and Barbuda','Argentina','Armenia','Australia','Austria',
@@ -52,25 +46,74 @@ export class UserCreateComponent {
     'Vietnam','Yemen','Zambia','Zimbabwe'
   ];
 
-  // user = signal<User>({  
-  //   username: '',
-  //   firstName: '',
-  //   lastName: '',
-  //   email: '',
-  //   age: 0,
-  //   gender: '',
-  //   phone: '',
-  //   country: '',
-  //   city: '',
-  //   institute: '',
-  //   department: '',
-  //   qualification: '',
-  // })
+  user: User = {
+    id: 0,
+    username: '',
+    name: '',
+    email: '',
+    age: 0,
+    gender: '',
+    phone: '',
+    country: '',
+    city: '',
+    institute: '',
+    department: '',
+    qualification: '',
+    language: '',
+    address: ''
+  };
+
+  firstName = '';
+  lastName = '';
+
+  ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.isEditMode = true;
+      this.userId = parseInt(id, 10);
+      this.loadUserData(this.userId);
+    }
+  }
+
+  loadUserData(userId: number) {
+    this.userService.getUserById(userId).subscribe(user => {
+      if (user) {
+        this.user = { ...user };
+        const nameParts = user.name.split(' ');
+        this.firstName = nameParts[0] || '';
+        this.lastName = nameParts.slice(1).join(' ') || '';
+      }
+    });
+  }
+
+  updateFullName() {
+    this.user.name = `${this.firstName} ${this.lastName}`.trim();
+  }
 
   onSubmit(event: Event): void {
     event.preventDefault();
-    console.log('User form submitted');
+    
+    this.updateFullName();
+    
+    if (this.isEditMode && this.userId) {
+      const { id, ...userWithoutId } = this.user;
+      this.userService.updateUser(this.userId, userWithoutId).subscribe(updatedUser => {
+        if (updatedUser) {
+          console.log('User updated successfully:', updatedUser);
+          this.router.navigate(['user/user-list']);
+        }
+      });
+    } else {
+      const { id, ...userWithoutId } = this.user;
+      this.userService.createUser(userWithoutId).subscribe(createdUser => {
+        console.log('User created successfully:', createdUser);
+        this.router.navigate(['user/user-list']);
+      });
+    }
+  }
+
+  onCancel(): void {
     this.router.navigate(['user/user-list']);
-  } 
+  }
 
 }
