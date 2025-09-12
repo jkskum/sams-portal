@@ -1,0 +1,21 @@
+.footer {
+    /* background-color: #f8f9fa; */
+    background-color: #e9eaeb;
+    text-align: center;
+    
+}
+
+/* fix footer always on screen bottom */
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer p {
+    margin: 0;
+    padding: 10px;
+    font-size: 14px;
+    color: #6c757d;
+}

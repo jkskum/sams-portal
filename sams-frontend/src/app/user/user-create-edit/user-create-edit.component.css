@@ -1,0 +1,23 @@
+form {
+    margin: 2rem;
+}
+
+#userCreatePage {
+    margin-top: 5rem;
+}
+
+#headerSection {
+    margin-left: 2rem;
+
+    span {
+        i {
+            color: var(--color-primary);
+            font-size: 2rem;
+        }
+    }
+}
+
+#pictureIcon {
+    font-size: 3rem;
+}
+
