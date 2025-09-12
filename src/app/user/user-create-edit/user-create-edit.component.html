@@ -1,93 +1,3 @@
-<!-- <div class="container" style="margin-top: 5rem;">
-
-  <div style="margin: 2rem;">
-    <h1>{{ isEditMode ? 'Edit User' : 'Create User' }}</h1>
-  </div>
-
-  <div>
-    <form class="row g-3" (submit)="onSubmit($event)">
-        <div class="col-md-4">
-          <label for="inputUsername" class="form-label">Username</label>
-          <input type="text" class="form-control" id="inputUsername" [(ngModel)]="user.username" name="username">
-        </div>
-        <div class="col-md-4">
-          <label for="inputPassword4" class="form-label">Password</label>
-          <input type="password" class="form-control" id="inputPassword4">
-        </div>
-        <div class="col-md-4">
-          <label for="inputEmail4" class="form-label">email</label>
-          <input type="email" class="form-control" id="inputEmail4" [(ngModel)]="user.email" name="email">
-        </div>
-        <div class="col-md-4">
-          <label for="inputFirstname" class="form-label">Firstname</label>
-          <input type="text" class="form-control" id="inputFirstname" [(ngModel)]="firstName" name="firstName" (input)="updateFullName()">
-        </div>
-        <div class="col-md-4">
-          <label for="inputLastname" class="form-label">Lastname</label>
-          <input type="text" class="form-control" id="inputLastname" [(ngModel)]="lastName" name="lastName" (input)="updateFullName()">
-        </div>
-        <div class="col-md-4">
-          <label for="inputPhone" class="form-label">Phone</label>
-          <input type="text" class="form-control" id="inputPhone" [(ngModel)]="user.phone" name="phone">
-        </div>
-        <div class="col-md-4">
-          <label for="inputAge" class="form-label">Age</label>
-          <input type="number" class="form-control" id="inputAge" [(ngModel)]="user.age" name="age">
-        </div>
-        <div class="col-md-4">
-          <label for="inputLanguage" class="form-label">Language</label>
-          <input type="text" class="form-control" id="inputLanguage" [(ngModel)]="user.language" name="language">
-        </div>
-        <div class="col-md-4">
-          <label for="inputGender" class="form-label">Gender</label>
-          <select id="inputGender" class="form-select" [(ngModel)]="user.gender" name="gender">
-            <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-
-        <div class="col-md-4">
-          <label for="inputQualification" class="form-label">Qualification</label>
-          <input type="text" class="form-control" id="inputQualification" [(ngModel)]="user.qualification" name="qualification">
-        </div>
-        <div class="col-md-4">
-          <label for="inputInstitute" class="form-label">Institute</label>
-          <input type="text" class="form-control" id="inputInstitute" [(ngModel)]="user.institute" name="institute">
-        </div>
-        <div class="col-md-4">
-          <label for="inputDepartment" class="form-label">Department</label>
-          <input type="text" class="form-control" id="inputDepartment" [(ngModel)]="user.department" name="department">
-        </div>
-
-        <div class="col-12">
-          <label for="inputAddress" class="form-label">Address</label>
-          <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" [(ngModel)]="user.address" name="address">
-        </div>
-        <div class="col-md-4">
-          <label for="inputCountry" class="form-label">Country</label>
-          <select id="inputCountry" class="form-select" [(ngModel)]="user.country" name="country">
-            <option value="" selected disabled>Select a country</option>
-            <option *ngFor="let c of countries" [value]="c">{{ c }}</option>
-          </select>
-        </div>
-        <div class="col-md-4">
-          <label for="inputCity" class="form-label">City/Town</label>
-          <input type="text" class="form-control" id="inputCity" [(ngModel)]="user.city" name="city">
-        </div>
-        <div class="input-group mb-3">
-          <input type="file" class="form-control" id="inputGroupFile02">
-          <label class="input-group-text" for="inputGroupFile02">Upload</label>
-        </div>
-        <div class="col-12 d-flex justify-content-end">
-          <button type="button" class="secondary-btn px-4 py-2 fw-light rounded" (click)="onCancel()">Cancel</button>
-          <button type="submit" class="create-user-btn ms-4 px-4 py-2 fw-light rounded">{{ isEditMode ? 'Update' : 'Create' }}</button>
-        </div>
-      </form>
-  </div>
-</div> -->
-
 <div class="container" id="userCreatePage">
 
   <div class="mb-5" id="headerSection">
@@ -95,7 +5,7 @@
     <span class="ms-2"><i class="bi" [class]="isEditMode ? 'bi bi-pencil-square' : 'bi-person-fill-add'"></i></span>
   </div>
 
-  <form (submit)="onSubmit($event)">
+  <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)" novalidate>
     
     <div class="card mb-4 shadow-sm">
       <div class="card-header bg-white py-3">
@@ -106,20 +16,62 @@
       </div>
       <div class="card-body">
         <div class="row g-4">
-          <div class="col-md-4">
-            <label for="inputUsername" class="form-label">Username</label>
+          <div class="col-md-3">
+            <label for="inputUsername" class="form-label">Username<span class="text-danger"> *</span></label>
             <input type="text" class="form-control" id="inputUsername" 
-                   placeholder="Enter username" [(ngModel)]="user.username" name="username">
+                   placeholder="Enter username" [(ngModel)]="user.username" name="username" required minlength="5" #username="ngModel"
+                   [class.is-invalid]="username.invalid && (username.dirty || username.touched)">
+            <div class="invalid-feedback" *ngIf="username.errors && (username.dirty || username.touched)">
+              <span *ngIf="username.errors['required']">Username is required.</span>
+              <span *ngIf="username.errors['minlength']">Username must be at least 5 characters.</span>
+            </div>
           </div>
-          <div class="col-md-4">
-            <label for="inputPassword4" class="form-label">Password</label>
-            <input type="password" class="form-control" id="inputPassword4" 
-                   placeholder="Enter password">
+          <div class="col-md-3">
+            <label for="inputPassword4" class="form-label">Password<span class="text-danger"> *</span></label>
+            <input 
+              type="password" 
+              class="form-control" 
+              id="inputPassword4" 
+              placeholder="Enter password"
+              [(ngModel)]="password"
+              name="password"
+              [required]="!isEditMode"
+              minlength="8"
+              [pattern]="passwordPattern"
+              #pwd="ngModel"
+              [class.is-invalid]="pwd.invalid && (pwd.dirty || pwd.touched || userForm.submitted)">
+            <div class="invalid-feedback" *ngIf="pwd.invalid && (pwd.dirty || pwd.touched || userForm.submitted)">
+              <ng-container *ngIf="pwd.errors as e">
+                <span *ngIf="e['required']">This field is required.</span>
+                <span *ngIf="!e['required'] && e['minlength']">Password must be at least 8 characters.</span>
+                <span *ngIf="!e['required'] && !e['minlength'] && e['pattern']">Password must include at least one letter, one number, and one special character.</span>
+              </ng-container>
+            </div>
+            <div class="form-text" *ngIf="isEditMode">Leave blank to keep the current password.</div>
           </div>
-          <div class="col-md-4">
-            <label for="inputEmail4" class="form-label">Email</label>
+          <div class="col-md-3">
+            <label for="inputEmail4" class="form-label">Email<span class="text-danger"> *</span></label>
             <input type="email" class="form-control" id="inputEmail4" 
-                   placeholder="Enter email address" [(ngModel)]="user.email" name="email">
+                   placeholder="Enter email address" [(ngModel)]="user.email" name="email" required email #email="ngModel"
+                   [class.is-invalid]="email.invalid && (email.dirty || email.touched)">
+            <div class="invalid-feedback" *ngIf="email.errors && (email.dirty || email.touched)">
+              <span *ngIf="email.errors['required']">Email is required.</span>
+              <span *ngIf="email.errors['email']">Please enter a valid email.</span>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label for="inputRole" class="form-label">Role<span class="text-danger"> *</span></label>
+            <select id="inputRole" class="form-select" [(ngModel)]="user.role" name="role" required #role="ngModel"
+                    [class.is-invalid]="role.invalid && (role.dirty || role.touched)">
+              <option value="" selected disabled>Select role</option>
+              <option value="admin">Admin</option>
+              <option value="manager">Manager</option>
+              <option value="teacher">Teacher</option>
+              <option value="student">Student</option>
+            </select>
+            <div class="invalid-feedback" *ngIf="role.errors && (role.dirty || role.touched)">
+              Role is required.
+            </div>
           </div>
         </div>
       </div>
@@ -136,24 +88,55 @@
       <div class="card-body">
         <div class="row g-4">
           <div class="col-md-4">
-            <label for="inputFirstname" class="form-label">First Name</label>
+            <label for="inputFirstname" class="form-label">First Name<span class="text-danger"> *</span></label>
             <input type="text" class="form-control" id="inputFirstname" 
-                   placeholder="Enter first name" [(ngModel)]="firstName" name="firstName" (input)="updateFullName()">
+                   placeholder="Enter first name" [(ngModel)]="firstName" name="firstName" (input)="updateFullName()" required #firstNameCtrl="ngModel"
+                   [class.is-invalid]="firstNameCtrl.invalid && (firstNameCtrl.dirty || firstNameCtrl.touched)">
+            <div class="invalid-feedback" *ngIf="firstNameCtrl.errors && (firstNameCtrl.dirty || firstNameCtrl.touched)">
+              First name is required.
+            </div>
           </div>
           <div class="col-md-4">
-            <label for="inputLastname" class="form-label">Last Name</label>
+            <label for="inputLastname" class="form-label">Last Name<span class="text-danger"> *</span></label>
             <input type="text" class="form-control" id="inputLastname" 
-                   placeholder="Enter last name" [(ngModel)]="lastName" name="lastName" (input)="updateFullName()">
+                   placeholder="Enter last name" [(ngModel)]="lastName" name="lastName" (input)="updateFullName()" required #lastNameCtrl="ngModel"
+                   [class.is-invalid]="lastNameCtrl.invalid && (lastNameCtrl.dirty || lastNameCtrl.touched)">
+            <div class="invalid-feedback" *ngIf="lastNameCtrl.errors && (lastNameCtrl.dirty || lastNameCtrl.touched)">
+              Last name is required.
+            </div>
           </div>
           <div class="col-md-4">
-            <label for="inputPhone" class="form-label">Phone</label>
-            <input type="text" class="form-control" id="inputPhone" 
-                   placeholder="Enter phone number" [(ngModel)]="user.phone" name="phone">
+            <label for="inputPhone" class="form-label">Phone<span class="text-danger"> *</span></label>
+            <input type="hidden" aria-hidden="true" tabindex="-1"
+                   name="phone" [(ngModel)]="phoneFormValue" required #phoneModel="ngModel">
+            <input 
+              type="tel" 
+              class="form-control" 
+              id="inputPhone"
+              #phoneInput
+              name="phoneDisplay"
+              placeholder="Enter phone number"
+              [class.is-invalid]="phoneModel.invalid && (phoneModel.dirty || phoneModel.touched || userForm.submitted)"
+              (input)="phoneModel.control.markAsDirty(); onPhoneChange()"
+              (blur)="phoneModel.control.markAsTouched(); validatePhoneNumber()">
+            <div class="invalid-feedback"
+                 [class.d-block]="phoneModel.invalid && (phoneModel.dirty || phoneModel.touched || userForm.submitted) && !phoneInput.value">
+              This field is required.
+            </div>
+            <div class="invalid-feedback"
+                 [class.d-block]="phoneModel.invalid && (phoneModel.dirty || phoneModel.touched || userForm.submitted) && phoneInput.value">
+              Please enter a valid phone number.
+            </div>
           </div>
+          
           <div class="col-md-4">
             <label for="inputAge" class="form-label">Age</label>
             <input type="number" class="form-control" id="inputAge" 
-                   placeholder="Enter age" [(ngModel)]="user.age" name="age">
+                   placeholder="Enter age" [(ngModel)]="user.age" name="age" min="0" #age="ngModel"
+                   [class.is-invalid]="age.invalid && (age.dirty || age.touched)">
+            <div class="invalid-feedback" *ngIf="age.errors && (age.dirty || age.touched)">
+              <span *ngIf="age.errors['min']">Age cannot be negative.</span>
+            </div>
           </div>
           <div class="col-md-4">
             <label for="inputLanguage" class="form-label">Language</label>
@@ -161,13 +144,17 @@
                    placeholder="Enter preferred language" [(ngModel)]="user.language" name="language">
           </div>
           <div class="col-md-4">
-            <label for="inputGender" class="form-label">Gender</label>
-            <select id="inputGender" class="form-select" [(ngModel)]="user.gender" name="gender">
+            <label for="inputGender" class="form-label">Gender<span class="text-danger"> *</span></label>
+            <select id="inputGender" class="form-select" [(ngModel)]="user.gender" name="gender" required #gender="ngModel"
+                    [class.is-invalid]="gender.invalid && (gender.dirty || gender.touched)">
               <option value="" selected disabled>Select gender</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
             </select>
+            <div class="invalid-feedback" *ngIf="gender.errors && (gender.dirty || gender.touched)">
+              Gender is required.
+            </div>
           </div>
         </div>
       </div>
@@ -218,11 +205,15 @@
         </div>
         <div class="row g-4">
           <div class="col-md-6">
-            <label for="inputCountry" class="form-label">Country</label>
-            <select id="inputCountry" class="form-select" [(ngModel)]="user.country" name="country">
+            <label for="inputCountry" class="form-label">Country<span class="text-danger"> *</span></label>
+            <select id="inputCountry" class="form-select" [(ngModel)]="user.country" name="country" required #country="ngModel"
+                    [class.is-invalid]="country.invalid && (country.dirty || country.touched)">
               <option value="" selected disabled>Select a country</option>
               <option *ngFor="let c of countries" [value]="c">{{ c }}</option>
             </select>
+            <div class="invalid-feedback" *ngIf="country.errors && (country.dirty || country.touched)">
+              Country is required.
+            </div>
           </div>
           <div class="col-md-6">
             <label for="inputCity" class="form-label">City/Town</label>
@@ -233,35 +224,119 @@
       </div>
     </div>
 
-    
+
     <div class="card mb-4 shadow-sm">
       <div class="card-header bg-white py-3">
         <h5 class="card-title mb-0 d-flex align-items-center">
-          <i class="bi bi-camera text-primary me-2"></i>
-          Picture
+          <i class="bi bi-person-circle text-primary me-2"></i>
+          Profile Picture
         </h5>
       </div>
       <div class="card-body">
-        <div class="border border-2 border-dashed rounded p-2 text-center">
-          <i class="bi bi-cloud-upload text-muted mb-3" id="pictureIcon"></i>
-          <div class="mb-3">
-            <p class="text-muted mb-1">Drag and drop your Picture here, or click to browse</p>
-            <p class="small text-muted">Supported formats: JPG, PNG, GIF</p>
-          </div>
-          <input type="file" class="form-control d-none" id="profilePicture" accept="image/*">
-          <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('profilePicture').click()">
-            Choose Picture
+        <div class="border border-2 border-dashed rounded p-4 text-center profile-upload-area"
+             [class.border-primary]="isDragOver || previewUrl"
+             [class.bg-light]="isDragOver"
+             (drop)="onDrop($event)" 
+             (dragover)="onDragOver($event)"
+             (dragleave)="onDragLeave($event)"
+             (dragenter)="onDragEnter($event)"
+             style="transition: all 0.3s ease; cursor: pointer;"
+             (click)="triggerFileInput()">
+          
+          <ng-container *ngIf="previewUrl; else noPreviewBlock">
+            <div class="position-relative d-inline-block mb-3">
+              <img [src]="previewUrl" 
+                   alt="Profile Preview" 
+                   class="rounded-circle border"
+                   style="width: 120px; height: 120px; object-fit: cover;">
+              <button type="button" 
+                      class="btn btn-sm btn-danger position-absolute rounded-circle"
+                      style="top: -5px; right: -5px; width: 30px; height: 30px; padding: 0;"
+                      (click)="removeImage($event)">
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </div>
+            <div class="mt-2">
+              <p class="small text-success mb-0">
+                <i class="bi bi-check-circle me-1"></i>
+                New profile picture selected
+              </p>
+              <p class="small text-muted">{{ selectedFile?.name }} ({{ getFileSize() }})</p>
+            </div>
+          </ng-container>
+
+          <!-- Make the user.profilePicture && instead of || when integrating with backend -->
+          <ng-template #noPreviewBlock>
+            <ng-container *ngIf="isEditMode || user.profilePicture; else uploadPromptBlock">
+              <div class="position-relative d-inline-block mb-3">
+                <img [src]="getProfilePictureUrl()" 
+                     alt="Current Profile" 
+                     class="rounded-circle border"
+                     style="width: 120px; height: 120px; object-fit: cover;">
+                <button type="button" 
+                        class="btn btn-sm btn-warning position-absolute rounded-circle"
+                        style="top: -5px; right: -5px; width: 30px; height: 30px; padding: 0;"
+                        (click)="onEditPictureClick($event)">
+                  <i class="bi bi-pencil"></i>
+                </button>
+              </div>
+              <div class="mt-2">
+                <p class="small text-muted mb-0">
+                  <i class="bi bi-image me-1"></i>
+                  Current profile picture
+                </p>
+              </div>
+            </ng-container>
+            <ng-template #uploadPromptBlock>
+              <div class="mb-3">
+                <i class="bi bi-person-circle text-muted profile-upload-icon" 
+                   style="font-size: 5rem;"
+                   [class.text-primary]="isDragOver"></i>
+              </div>
+              <div class="mb-3">
+                <p class="text-muted mb-1" [class.text-primary]="isDragOver">
+                  {{ isDragOver ? 'Drop your profile picture here' : 'Upload your profile picture' }}
+                </p>
+                <p class="small text-muted">Drag and drop or click to browse</p>
+                <p class="small text-muted">Supported: JPG, PNG (Max 2MB)</p>
+              </div>
+            </ng-template>
+          </ng-template>
+    
+          <input type="file" 
+                 class="form-control d-none" 
+                 id="profilePicture" 
+                 accept="image/jpeg,image/png,image/jpg"
+                 #fileInput
+                 (change)="onFileSelected($event)">
+    
+          <button type="button" 
+                  class="create-user-btn px-3 py-2 fw-light rounded"
+                  [class.btn-outline-primary]="!previewUrl && !user.profilePicture"
+                  [class.btn-primary]="previewUrl || user.profilePicture"
+                  (click)="onUploadButtonClick($event)">
+            <i class="bi bi-camera me-2"></i>
+            {{ getButtonText() }}
           </button>
+        </div>
+    
+        <div *ngIf="uploadStatus" class="mt-3">
+          <div class="alert" [class.alert-success]="uploadStatus.type === 'success'" 
+               [class.alert-danger]="uploadStatus.type === 'error'">
+            {{ uploadStatus.message }}
+          </div>
         </div>
       </div>
     </div>
-
     
+
+
     <div class="d-flex justify-content-end gap-3 pt-4 pb-5 mb-5">
       <button type="button" class="secondary-btn mb-2 px-4 py-2 fw-light rounded" (click)="onCancel()">
         Cancel
       </button>
-      <button type="submit" class="create-user-btn ms-4 mb-2 px-4 py-2 fw-light rounded">
+      <button type="submit" class="create-user-btn ms-4 mb-2 px-4 py-2 fw-light rounded" 
+              [disabled]="userForm.invalid">
         {{ isEditMode ? 'Update User' : 'Create User' }}
       </button>
     </div>

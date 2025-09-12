@@ -1,6 +1,7 @@
 #userListPage {
   margin-top: 5rem;
   margin-bottom: 3rem;
+  max-width: 1400px;
 }
 
 #userIcon {
@@ -48,3 +49,54 @@
     min-height: 500px;
     position: relative;
   }
+
+/* Multi-select dropdown styling */
+.dropdown-menu {
+  border: 1px solid #dee2e6;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.dropdown-menu .form-check {
+  margin: 0;
+}
+
+.dropdown-menu .form-check-input {
+  margin-top: 0.125rem;
+}
+
+.dropdown-menu .form-check-label {
+  font-size: 0.875rem;
+  cursor: pointer;
+  width: 100%;
+  padding: 0.25rem 0;
+}
+
+.dropdown-menu li:hover {
+  background-color: #f8f9fa;
+}
+
+.dropdown-menu .dropdown-divider {
+  margin: 0.25rem 0;
+}
+
+/* Prevent dropdown from closing when clicking inside */
+.dropdown-menu {
+  padding: 0.5rem 0;
+}
+
+.dropdown-menu li {
+  list-style: none;
+}
+
+/* Button styling for multi-select */
+.dropdown-toggle {
+  text-align: left !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dropdown-toggle::after {
+  float: right;
+  margin-top: 0.5rem;
+}

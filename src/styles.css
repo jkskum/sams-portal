@@ -51,6 +51,12 @@
     color: #fff;
   }
 
+  .create-user-btn:disabled {
+    background-color: #e7e3d4;
+    color: #2d3748;
+    border: none;
+}
+
   .secondary-btn {
     background: var(--color-secondary);
     color: #fff;
